@@ -4,7 +4,7 @@
 typedef uint8_t BYTE;
 
 int main(int argc, char* argv[])
-{
+{	
 	if (argc != 2)
 	{
 		printf("USAGE: ./recover [card.raw]");
@@ -19,27 +19,27 @@ int main(int argc, char* argv[])
 
 	BYTE buffer[512];
 	int  i = 0;
+	FILE* newF;
 	while (fread(buffer, sizeof(BYTE), 512, file))
 	{
 		char filename[8];
 		sprintf(filename, "%03i.jpg",i);
 
-		FILE* new = NULL;
-
 		// If start of a new jpg
 		if (buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff && (buffer[3] & 0xf0) == 0xe0)
 		{	
 			if (i != 0)
-				fclose(new);
-			new = fopen(filename,"w");
-			if (new == NULL)
+				fclose(newF);
+			newF = fopen(filename,"w");
+			if (newF == NULL)
 				return 1;
 
 			i++;
 		}
 
 		// continue writing
-		fwrite(buffer, sizeof(BYTE), 512, new);
+		if (newF != NULL)
+			fwrite(buffer, sizeof(BYTE), 512, newF);
 	}
 
 	fclose(file);
