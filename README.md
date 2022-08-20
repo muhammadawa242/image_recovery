@@ -9,4 +9,4 @@ were not overwritten by the new images you have stored.
 
 ### Note: The raw file should be named as "card.raw" otherwise the program will throw some error
 
-### *Execute the Program using CLI*
+### \*Execute the Program using CLI\*
